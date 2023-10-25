@@ -49,14 +49,24 @@ When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
 end
 
 # Part 2, Step 3
+
 Then /^I should (not )?see the following movies: (.*)$/ do |no, movie_list|
   # Take a look at web_steps.rb Then /^(?:|I )should see "([^"]*)"$/
-  pending "Fill in this step in movie_steps.rb"
+  list_of_movies = movie_list.split(", ")
+  list_of_movies.each do |movie_name|
+    if no
+      expect(page).not_to have_content(movie_name)
+    else
+      expect(page).to have_content(movie_name)
+    end
+  end
 end
 
 Then /I should see all the movies/ do
   # Make sure that all the movies in the app are visible in the table
-  pending "Fill in this step in movie_steps.rb"
+  Movie.all.each do |movie|
+    expect(page).to have_content(movie.title)
+  end
 end
 
 ### Utility Steps Just for this assignment.
@@ -78,4 +88,5 @@ Then /complete the rest of of this scenario/ do
   # This shows you what a basic cucumber scenario looks like.
   # You should leave this block inside movie_steps, but replace
   # the line in your scenarios with the appropriate steps.
+  fail
 end
