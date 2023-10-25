@@ -39,3 +39,17 @@ Scenario: all ratings selected
   Given I check the following ratings: PG, R, G, PG-13
   And I press "Refresh"
   Then I should see all the movies
+
+Scenario: restrict to movies with just "PG-13" rating
+  Given I check the following ratings: PG-13
+  And I uncheck the following ratings: G, PG, R
+  And I press "Refresh"
+  Then I should see the following movies: The Help, Chocmolat
+  And I should not see the following movies: Aladdin, 2001: A Space Odyssey, Chicken Run, The Terminator, When Harry Met Sally, Amelie, The Incredibles, Raiders of the Lost Ark
+
+Scenario: checks to see if you have selected no filteres it reverts to what you had selected before
+  Given I check the following ratings: PG, R, PG-13, G 
+  And I press "Refresh"
+  Then I uncheck the following ratings: PG, R, PG-13, G
+  And I press "Refresh"
+  Then I should see all the movies
